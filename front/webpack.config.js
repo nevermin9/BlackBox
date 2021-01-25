@@ -11,9 +11,17 @@ const config = {
     entry: {
         app: path.resolve(__dirname, 'src/main.ts'),
     },
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: isDev ? 'bundle.js' : '[hash].[name].bundle.js',
+        // publicPath: 
+    },
     devtool: isDev ? 'inline-source-map' : false,
     resolve: {
         extensions: ['.ts', '.vue', '.js', '.json'],
+        alias: {
+            '@': path.resolve(__dirname, 'src/'),
+        }
     },
     plugins: [
         new HtmlPlugin({
@@ -38,15 +46,14 @@ const config = {
             },
         ]
     },
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: '[contenthash].bundle.js',
-        // publicPath: 
-    },
     devServer: {
         port: process.env.PORT,
         contentBase: './dist',
         overlay: true,
+        hot: true,
+        open: true,
+        stats: { colors: true },
+        historyApiFallback: true 
     }
 };
 
